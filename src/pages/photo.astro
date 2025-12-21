@@ -1,1 +1,92 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
 
+// Put your images in: /public/photos/
+// Then list them here:
+const photos = [
+	{ src: '/photos/jack-1.jpg', alt: 'Jack Duff being Jack Duff', caption: 'Historical reenactment (unverified).' },
+	{ src: '/photos/jack-2.jpg', alt: 'Jack Duff mid-laugh', caption: 'Caught in his natural habitat.' },
+	{ src: '/photos/jack-3.jpg', alt: 'Jack Duff doing something questionable', caption: 'This seemed like a good idea at the time.' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`${SITE_TITLE} — Photos`} description="A totally serious archive of Jack Duff sightings." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Jack Duff Photo Evidence</h1>
+
+			<p style="font-size: 0.95em; opacity: 0.8;">
+				Parody site for a friend. All captions are for laughs.
+			</p>
+
+			{photos.length === 0 ? (
+				<p>
+					No photos yet. Add images to <code>public/photos</code> and list them in
+					<code> src/pages/photo.astro</code>.
+				</p>
+			) : (
+				<ul class="gallery">
+					{photos.map((p) => (
+						<li class="card">
+							<a href={p.src} target="_blank" rel="noreferrer">
+								<img src={p.src} alt={p.alt} loading="lazy" />
+							</a>
+							<p class="caption">{p.caption}</p>
+						</li>
+					))}
+				</ul>
+			)}
+		</main>
+		<Footer />
+
+		<style>
+			main {
+				max-width: 1000px;
+				margin: 0 auto;
+				padding: 2rem 1rem;
+			}
+
+			.gallery {
+				list-style: none;
+				padding: 0;
+				margin: 1.5rem 0 0;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+				gap: 1rem;
+			}
+
+			.card {
+				border: 1px solid rgba(0, 0, 0, 0.12);
+				border-radius: 12px;
+				overflow: hidden;
+				background: rgba(255, 255, 255, 0.6);
+			}
+
+			.card a {
+				display: block;
+			}
+
+			img {
+				width: 100%;
+				height: 240px;
+				object-fit: cover;
+				display: block;
+			}
+
+			.caption {
+				margin: 0;
+				padding: 0.75rem 0.9rem;
+				font-size: 0.95rem;
+				opacity: 0.9;
+			}
+		</style>
+	</body>
+</html>
